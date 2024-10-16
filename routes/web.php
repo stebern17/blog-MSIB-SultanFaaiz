@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostQbuilderController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,5 +24,7 @@ Route::get('/posts/{post}', [CategoryController::class, 'show'])->name('posts.sh
 Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
 Route::get('/posts/edit/{post}', [PostController::class, 'edit'])->name('posts.edit');
 Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
+
 
 
