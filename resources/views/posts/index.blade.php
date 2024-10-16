@@ -3,49 +3,51 @@
 @section('title', 'Posts')
 
 @section('content')
-    <h1>Posts</h1>
-    <a href="{{ route('posts.create') }}" class="btn btn-primary mb-2">Create Post</a>
-    <div class="list-group">
-        
-        @if (count($posts) >= 0)
-            @foreach ($posts as $post)
-                <div class="list-group-item justify-content-between align-items-center d-flex">
-                    <div class="d-flex">
-                        @if ($post->image)
-                            <img src="{{ asset('storage/'.$post->image)}}" alt="Post image" class="img-thumbnail me-3" style="width: 100px; height: 100px;">
-                        @else
-                            <img src="https://via.placeholder.com/100" alt="Default Image" class="img-thumbnail me-3" style="width: 100px; height: 100px;">
-                        @endif
+<div class="container mx-auto px-5">
+    <h1 class="text-3xl font-bold mb-4">Posts</h1>
+    <a href="{{ route('posts.create') }}" class="bg-blue-500 text-white py-2 px-4 rounded mb-4 inline-block hover:bg-blue-600 transition">Create Post</a>
 
-                        <div>
-                            <h6><a href="{{ route('posts.show', $post->id) }}">{{ $post->title }}</a></h6>
-                            <p>in category {{ $post->category->name }}</p>
-                            <p>
-                                Status:
-                                
-                                <span class="badge {{ $post->is_published ? 'bg-success' : 'bg-secondary' }}">
-                                    {{ $post->is_published ? 'Published' : 'Draft' }}
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="align-self-center">
-                        <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                        <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display: inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure want to delete this data?');">
-                                Delete
-                            </button>
-                        </form>
-                    </div>
+    <div class="space-y-4">
+        @if (count($posts) > 0)
+        @foreach ($posts as $post)
+        <div class="flex justify-between items-center bg-white p-4 rounded shadow-md border">
+            <div class="flex items-center">
+                @if ($post->image)
+                <img src="{{ asset('storage/'.$post->image) }}" alt="Post image" class="w-24 h-24 rounded mr-4 object-cover">
+                @else
+                <img src="https://via.placeholder.com/100" alt="Default Image" class="w-24 h-24 rounded mr-4 object-cover">
+                @endif
+
+                <div>
+                    <h6 class="text-lg font-semibold"><a href="{{ route('posts.show', $post->id) }}" class="text-blue-500 hover:underline">{{ $post->title }}</a></h6>
+                    <p class="text-gray-600">in category {{ $post->category->name }}</p>
+                    <p class="text-gray-600">by {{ $post->author->name }}</p>
+                    <p class="mt-2">
+                        Status:
+                        <span class="inline-block px-2 py-1 text-xs rounded {{ $post->is_published ? 'bg-green-500 text-white' : 'bg-gray-400 text-white' }}">
+                            {{ $post->is_published ? 'Published' : 'Draft' }}
+                        </span>
+                    </p>
                 </div>
-            @endforeach
-        @else
-            <div class="list-group-item jsutify-content-between align-items-center">
-                No data
             </div>
+
+            <div class="flex items-center space-x-2">
+                <a href="{{ route('posts.edit', $post->id) }}" class="bg-yellow-400 text-white py-1 px-3 rounded hover:bg-yellow-500 transition">Edit</a>
+                <form action="{{ route('posts.destroy', $post->id) }}" method="POST" class="inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition" onclick="return confirm('Are you sure want to delete this data?');">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+        @endforeach
+        @else
+        <div class="bg-white p-4 rounded shadow-md border">
+            <p class="text-gray-600">No data</p>
+        </div>
         @endif
     </div>
+</div>
 @endsection

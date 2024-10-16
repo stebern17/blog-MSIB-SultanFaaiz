@@ -3,46 +3,57 @@
 @section('title', 'Create Post')
 
 @section('content')
-    <h1>Create Post</h1>
-    <a href="{{ route('posts.index') }}" class="btn btn-outline-secondary mb-3">Back</a>
+<div class="container mx-auto px-5">
+    <h1 class="text-3xl font-bold mb-4">Create Post</h1>
+    <a href="{{ route('posts.index') }}" class="bg-gray-300 text-gray-700 py-2 px-4 rounded mb-3 inline-block hover:bg-gray-400 transition">Back</a>
+
     @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
     @endif
 
-    <form action="{{route('posts.store')}}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" name="title" id="title" class="form-control">
+        <div class="mb-4">
+            <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+            <input type="text" name="title" id="title" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
         </div>
-        <div class="form-group">
-            <label for="content">Content</label>
-            <textarea name="content" id="content" class="form-control"></textarea>
+        <div class="mb-4">
+            <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
+            <textarea name="content" id="content" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
         </div>
-        <div class="form-group">
-            <label for="category">Category</label>
-            <select name="category_id" class="form-control">
+        <div class="mb-4">
+            <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+            <select name="category_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
                 <option value="">Choose</option>
                 @foreach ($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
             </select>
         </div>
-        <div class="form-group">
-            <label for="image">Upload Image</label>
-            <input type="file" name="image" class="form-control">
+        <div class="mb-4">
+            <label for="author" class="block text-sm font-medium text-gray-700">Author</label>
+            <select name="author_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                <option value="">Choose Author</option>
+                @foreach ($profiles as $profile)
+                <option value="{{ $profile->id }}">{{ $profile->name }}</option>
+                @endforeach
+            </select>
         </div>
-        <div class="form-check">
-            <input type="checkbox" name="is_published" class="form-check-input">
-            <label for="isPublished" class="form-check-label">Publish</label>
+        <div class="mb-4">
+            <label for="image" class="block text-sm font-medium text-gray-700">Upload Image</label>
+            <input type="file" name="image" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
         </div>
-        <button type="submit" class="btn btn-primary mt-2">Submit</button>
+        <div class="mb-4">
+            <input type="checkbox" name="is_published" id="isPublished" class="mr-2 leading-tight">
+            <label for="isPublished" class="text-sm text-gray-700">Publish</label>
+        </div>
+        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">Submit</button>
     </form>
-
+</div>
 @endsection

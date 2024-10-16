@@ -1,6 +1,7 @@
 <?php
 
 // app/Models/Profile.php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,9 +17,10 @@ class Profile extends Model
         'phone',
     ];
 
+    public $timestamps = false; // Menonaktifkan kolom timestamps
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 }
-

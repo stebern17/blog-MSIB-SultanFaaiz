@@ -24,7 +24,11 @@ Route::get('/posts/{post}', [CategoryController::class, 'show'])->name('posts.sh
 Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
 Route::get('/posts/edit/{post}', [PostController::class, 'edit'])->name('posts.edit');
 Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
-Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
 
-
-
+Route::get('/profiles', [ProfileController::class, 'index'])->name('profiles.index');
+Route::get('/profiles/create', [ProfileController::class, 'create'])->name('profiles.create');
+Route::get('/profiles/{profile}', [ProfileController::class, 'show'])->name('profiles.show');
+Route::get('/profiles/edit/{profile}', [ProfileController::class, 'edit'])->name('profiles.edit');
+Route::post('/profiles/store', [ProfileController::class, 'store'])->name('profiles.store');
+Route::put('/profiles/{profile}', [ProfileController::class, 'update'])->name('profiles.update');
+Route::delete('/profiles/{profile}', [ProfileController::class, 'destroy'])->name('profiles.destroy');
