@@ -15,6 +15,7 @@ class Post extends Model
         'image',
         'is_published',
         'category_id',
+        'author_id',
     ];
 
     public function category()
@@ -24,6 +25,6 @@ class Post extends Model
 
     public function author()
     {
-        return $this->belongsTo(Profile::class);
+        return $this->belongsTo(Profile::class, 'author_id');
     }
 }

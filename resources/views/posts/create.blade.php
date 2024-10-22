@@ -4,11 +4,11 @@
 
 @section('content')
 <div class="container mx-auto px-5">
-    <h1 class="text-3xl font-bold mb-4">Create Post</h1>
-    <a href="{{ route('posts.index') }}" class="bg-gray-300 text-gray-700 py-2 px-4 rounded mb-3 inline-block hover:bg-gray-400 transition">Back</a>
+    <h1 class="text-3xl font-bold mb-6">Create Post</h1>
+    <a href="{{ route('posts.index') }}" class="bg-gray-300 text-gray-700 py-2 px-4 rounded mb-4 inline-block hover:bg-gray-400 transition">Back</a>
 
     @if ($errors->any())
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
         <ul>
             @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
@@ -17,7 +17,7 @@
     </div>
     @endif
 
-    <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         @csrf
         <div class="mb-4">
             <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
@@ -47,10 +47,10 @@
         </div>
         <div class="mb-4">
             <label for="image" class="block text-sm font-medium text-gray-700">Upload Image</label>
-            <input type="file" name="image" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+            <input type="file" name="image" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
         </div>
-        <div class="mb-4">
-            <input type="checkbox" name="is_published" id="isPublished" class="mr-2 leading-tight">
+        <div class="mb-4 flex items-center">
+            <input type="checkbox" name="is_published" id="isPublished" {{ $post->is_published ? 'checked' : '' }} class="mr-2 leading-tight">
             <label for="isPublished" class="text-sm text-gray-700">Publish</label>
         </div>
         <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">Submit</button>

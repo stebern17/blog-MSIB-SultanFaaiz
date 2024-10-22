@@ -23,6 +23,7 @@ Route::get('/posts/create', [PostController::class, 'create'])->name('posts.crea
 Route::get('/posts/{post}', [CategoryController::class, 'show'])->name('posts.show');
 Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
 Route::get('/posts/edit/{post}', [PostController::class, 'edit'])->name('posts.edit');
+Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
 Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
 Route::get('/profiles', [ProfileController::class, 'index'])->name('profiles.index');

@@ -31,9 +31,8 @@ class PostController extends Controller
             'title'         => 'required|string|max:255',
             'content'       => 'required|string',
             'image'         => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-            'is_published'  => 'nullable|boolean',
             'category_id'   => 'required|exists:categories,id',
-            'author_id'     => 'required|exists:profiles,id', // Add validation for author_id
+            'author_id'     => 'required|exists:profiles,id',
         ]);
 
         try {
@@ -42,13 +41,16 @@ class PostController extends Controller
                 $imagePath = $request->file('image')->store('asset-images', 'public');
             }
 
+            // Determine if is_published should be true or false
+            $isPublished = $request->has('is_published') ? true : false;
+
             Post::create([
                 'title' => $request->title,
                 'content' => $request->content,
                 'image' => $imagePath,
-                'is_published' => $request->is_published ?? false,
+                'is_published' => $isPublished,
                 'category_id' => $request->category_id,
-                'author_id' => $request->author_id // Ensure this line is correct
+                'author_id' => $request->author_id
             ]);
 
             return redirect()->route('posts.index')->with('success', 'Post created successfully');
@@ -58,10 +60,13 @@ class PostController extends Controller
     }
 
 
+
+
     public function edit(Post $post)
     {
-        $categories = Category::all(); // Ambil semua kategori untuk dropdown
-        return view('posts.edit', compact('post', 'categories'));
+        $categories = Category::all();
+        $profiles = Profile::all(); // Pass profiles for editing
+        return view('posts.edit', compact('post', 'categories', 'profiles'));
     }
 
     public function update(Request $request, Post $post)
@@ -70,26 +75,30 @@ class PostController extends Controller
             'title'         => 'required|string|max:255',
             'content'       => 'required|string',
             'image'         => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-            'is_published'  => 'nullable|boolean',
             'category_id'   => 'required|exists:categories,id',
+            'author_id'     => 'required|exists:profiles,id',
         ]);
 
         try {
-            $imagePath = $post->image; // Simpan path gambar lama
+            $imagePath = $post->image; // Store old image path
             if ($request->hasFile('image')) {
-                // Jika ada gambar baru, hapus gambar lama
+                // Delete old image if it exists
                 if ($imagePath) {
                     Storage::disk('public')->delete($imagePath);
                 }
                 $imagePath = $request->file('image')->store('asset-images', 'public');
             }
 
+            // Determine if is_published should be true or false
+            $isPublished = $request->has('is_published') ? true : false;
+
             $post->update([
                 'title' => $request->title,
                 'content' => $request->content,
                 'image' => $imagePath,
-                'is_published' => $request->is_published ?? false,
-                'category_id' => $request->category_id
+                'is_published' => $isPublished,
+                'category_id' => $request->category_id,
+                'author_id' => $request->author_id
             ]);
 
             return redirect()->route('posts.index')->with('success', 'Post updated successfully');
@@ -97,6 +106,8 @@ class PostController extends Controller
             return redirect()->route('posts.index')->with('error', $err->getMessage());
         }
     }
+
+
 
     public function show(Post $post)
     {

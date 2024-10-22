@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container mx-auto px-5">
-    <h1 class="text-2xl font-bold mb-4">Post Details</h1>
+    <h1 class="text-2xl font-bold mb-6">Post Details</h1>
     <a href="{{ route('posts.index') }}" class="inline-block mb-4 bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 transition">
         Back to Posts
     </a>
@@ -21,8 +21,8 @@
         @else
         <img src="https://via.placeholder.com/600" alt="Default Image" class="w-full h-auto rounded mb-4">
         @endif
-        <p>Status:
-            <span class="badge {{ $post->is_published ? 'bg-green-500' : 'bg-gray-500' }}">
+        <p class="mt-2">Status:
+            <span class="inline-block px-2 py-1 text-xs rounded {{ $post->is_published ? 'bg-green-500 text-white' : 'bg-gray-400 text-white' }}">
                 {{ $post->is_published ? 'Published' : 'Draft' }}
             </span>
         </p>
@@ -32,7 +32,7 @@
         <a href="{{ route('posts.edit', $post->id) }}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600 transition">
             Edit
         </a>
-        <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display: inline;">
+        <form action="{{ route('posts.destroy', $post->id) }}" method="POST" class="inline">
             @csrf
             @method('DELETE')
             <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition ml-2" onclick="return confirm('Are you sure you want to delete this post?');">

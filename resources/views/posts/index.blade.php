@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container mx-auto px-5">
-    <h1 class="text-3xl font-bold mb-4">Posts</h1>
+    <h1 class="text-3xl font-bold mb-6">Posts</h1>
     <a href="{{ route('posts.create') }}" class="bg-blue-500 text-white py-2 px-4 rounded mb-4 inline-block hover:bg-blue-600 transition">Create Post</a>
 
     <div class="space-y-4">
@@ -19,9 +19,15 @@
                 @endif
 
                 <div>
-                    <h6 class="text-lg font-semibold"><a href="{{ route('posts.show', $post->id) }}" class="text-blue-500 hover:underline">{{ $post->title }}</a></h6>
-                    <p class="text-gray-600">in category {{ $post->category->name }}</p>
-                    <p class="text-gray-600">by {{ $post->author->name }}</p>
+                    <h6 class="text-lg font-semibold">
+                        <a href="{{ route('posts.show', $post->id) }}" class="text-blue-500 hover:underline">{{ $post->title }}</a>
+                    </h6>
+                    <p class="text-gray-600">
+                        in category: {{ $post->category ? $post->category->name : 'Uncategorized' }}
+                    </p>
+                    <p class="text-gray-600">
+                        by {{ $post->author ? $post->author->name : 'Unknown Author' }}
+                    </p>
                     <p class="mt-2">
                         Status:
                         <span class="inline-block px-2 py-1 text-xs rounded {{ $post->is_published ? 'bg-green-500 text-white' : 'bg-gray-400 text-white' }}">
@@ -36,7 +42,7 @@
                 <form action="{{ route('posts.destroy', $post->id) }}" method="POST" class="inline">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition" onclick="return confirm('Are you sure want to delete this data?');">
+                    <button type="submit" class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition" onclick="return confirm('Are you sure you want to delete this post?');">
                         Delete
                     </button>
                 </form>
